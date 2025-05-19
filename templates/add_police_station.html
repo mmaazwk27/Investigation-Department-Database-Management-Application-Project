@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Add Police Station{% endblock %}
+{% block content %}
+<h2>Add Police Station</h2>
+<form action="{{ url_for('add_police_station') }}" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.id.label(class="form-label") }}
+        {{ form.id(class="form-control") }}
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.location.label(class="form-label") }}
+        {{ form.location(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Add Station</button>
+</form>
+{% endblock %}

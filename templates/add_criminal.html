@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Add Criminal{% endblock %}
+{% block content %}
+
+    <h2>Add Criminal</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">{{ form.id.label }} {{ form.id(class="form-control") }}</div>
+        <div class="mb-3">{{ form.name.label }} {{ form.name(class="form-control") }}</div>
+        <div class="form-group">
+          {{ form.date_of_birth.label(class="form-label") }}
+          {{ form.date_of_birth(class="form-control", type="date") }}
+        </div>
+        <div class="mb-3">{{ form.gender.label }} {{ form.gender(class="form-select") }}</div>
+        <div class="mb-3">{{ form.criminal_type.label }} {{ form.criminal_type(class="form-select") }}</div>
+        <div class="mb-3">{{ form.crime_committed.label }} {{ form.crime_committed(class="form-control") }}</div>
+        <div class="mb-3">{{ form.status.label }} {{ form.status(class="form-select") }}</div>
+        <div id="arrest-date-group" class="form-group" style="display: none;">
+          {{ form.arrest_date.label(class="form-label") }}
+          {{ form.arrest_date(class="form-control", type="date") }}
+          {% for error in form.arrest_date.errors %}
+            <div class="text-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+    </form>
+
+<!-- Toggle Arrest Date visibility based on status -->
+<script>
+  const statusField = document.getElementById("status");
+  const arrestGroup = document.getElementById("arrest-date-group");
+
+  function toggleArrestDate() {
+    const s = statusField.value;
+    if (s === "Arrested" || s === "Released") {
+      arrestGroup.style.display = "block";
+    } else {
+      arrestGroup.style.display = "none";
+      document.getElementById("arrest_date").value = "";
+    }
+  }
+
+  // On load & on change
+  toggleArrestDate();
+  statusField.addEventListener("change", toggleArrestDate);
+</script>
+{% endblock %}

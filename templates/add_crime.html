@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Add Crime{% endblock %}
+{% block content %}
+    <h2>Add Crime</h2>
+    <!-- <form method="POST"> -->
+    <form action="{{ url_for('add_crime') }}" method="POST">
+        <!-- {{ csrf_token() }} -->
+        {{ form.hidden_tag() }}
+        <div class="mb-3">{{ form.id.label }} {{ form.id(class="form-control") }}</div>
+        <div class="mb-3">{{ form.crime_type.label }} {{ form.crime_type(class="form-control") }}</div>
+        <div class="mb-3">{{ form.location.label }} {{ form.location(class="form-control") }}</div>
+        <div class="mb-3">{{ form.description.label }} {{ form.description(class="form-control") }}</div>
+        <div class="mb-3">{{ form.date.label }} {{ form.date(class="form-control", type="date") }}</div>
+        <!-- <label>Crime Type:</label>
+        {{ form.crime_type(class="form-control") }} -->
+<!--     
+        <label>Location:</label>
+        {{ form.location(class="form-control") }} -->
+    
+        <!-- <label>Date:</label>
+        {{ form.date(class="form-control", type="date") }} -->
+    
+        <!-- <label>Description:</label>
+        {{ form.description(class="form-control") }} -->
+    
+        <!-- <label>Police Station ID:</label>
+        {{ form.police_station_id(class="form-control") }} -->
+    
+        <div class="mb-3">
+            {{ form.police_station_id.label(class="form-label") }}
+            {{ form.police_station_id(class="form-select") }}
+            {% if form.police_station_id.errors %}
+              <div class="text-danger">
+                {% for err in form.police_station_id.errors %}
+                  {{ err }}
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+      
+        <!-- <label>Criminal ID:</label>
+        {{ form.criminal_id(class="form-control") }} -->
+        <div class="mb-3">
+            {{ form.criminal_id.label(class="form-label") }}
+            {{ form.criminal_id(class="form-select") }}
+            {% if form.criminal_id.errors %}
+              <div class="text-danger">
+                {% for err in form.criminal_id.errors %}
+                  {{ err }}
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+
+        
+      
+        <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+    </form>
+{% endblock %}

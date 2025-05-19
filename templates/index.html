@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container text-center">
+    <h1>Welcome, {{ current_user.username }}</h1>
+    <div class="row mt-4">
+      <div class="col-md-3">
+        <a href ="{{url_for('view_police_officers')}}" class="'card-link text-decoration-none" >
+          <div class="card dashboard-card bg-gradient-blue mb-4">
+              <div class="card-body">
+                  <h5 class="card-title">Police Officers</h5>
+                  <p class="card-text display-4">{{ total_officers }}</p>
+              </div>
+            </div>
+            </a>  
+      </div>
+      <div class="col-md-3">
+        <a href ="{{url_for('view_police_stations')}}" class="'card-link text-decoration-none" >
+          <div class="card dashboard-card bg-gradient-green mb-4">
+              <div class="card-body">
+                  <h5 class="card-title">Police Stations</h5>
+                  <p class="card-text display-4">{{ total_stations }}</p>
+              </div>
+            </div>
+            </a>  
+      </div>
+      <div class="col-md-3">
+          <a href ="{{url_for('view_crimes')}}" class="'card-link text-decoration-none" >
+          <div class="card dashboard-card bg-gradient-red mb-4">
+              <div class="card-body">
+                  <h5 class="card-title">Crimes</h5>
+                  <p class="card-text display-4">{{ total_crimes }}</p>
+              </div>
+          </div>
+          </a>
+      </div>
+      <div class="col-md-3">
+        <a href ="{{url_for('view_case')}}" class="'card-link text-decoration-none" >
+        <div class="card dashboard-card bg-gradient-gray mb-4">
+              <div class="card-body">
+                  <h5 class="card-title">Cases</h5>
+                  <p class="card-text display-4">{{ total_cases }}</p>
+              </div>
+          </div>
+        </a>  
+      </div>
+      
+      {% if current_user.role == 'admin' %}
+      <div class="col-md-3">
+        <a href ="{{url_for('view_accounts')}}" class="'card-link text-decoration-none" >
+        <div class="card dashboard-card bg-gradient-dark mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text display-4">{{ total_users }}</p>
+            </div>
+        </div>
+        </div>
+        </a>  
+      {% endif %}
+    </div>
+     
+{% endblock %}

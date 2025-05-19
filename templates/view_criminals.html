@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}View Criminals{% endblock %}
+{% block content %}
+    <h2>Criminals List</h2>
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+    </div>
+    
+    <table class="table table-striped">
+        <thead id="tableheading">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Criminal Type</th>
+                <th>Crime Committed</th>
+                <th>Status</th>
+                <th>Arrest Date</th>
+                {% if current_user.role == 'admin' %}
+                <th></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('add_criminal') }}" class="btn btn-success">Add Criminal</a>
+            {% endif %}
+            {% for criminal in criminals %}
+                <tr class="searchable">
+                    <td>{{criminal.id}}</td>
+                    <td>{{ criminal.name }}</td>
+                    <td>{{ criminal.calculate_age() }}</td>
+                    <td>{{ criminal.gender }}</td>
+                    <td>{{ criminal.criminal_type }}</td>
+                    <td>{{ criminal.crime_committed }}</td>
+                    
+                    
+                    {% if current_user.role == 'admin' %}
+                    <td>
+                        <!-- Dropdown for editing criminal status -->
+                        <form method="POST" action="{{ url_for('edit_criminal_status', criminal_id=criminal.id) }}">
+                            {{ csrf_form.hidden_tag() }}
+                            <div class="form-group position-relative">
+                                <select name="criminal_status" class="form-control" onchange="this.form.submit()">
+                                    <option value="Arrested" {% if criminal.status == 'Arrested' %}selected{% endif %}>Arrested</option>
+                                    <option value="Wanted" {% if criminal.status == 'Wanted' %}selected{% endif %}>Wanted</option>
+                                    <option value="Released" {% if criminal.status == 'Released' %}selected{% endif %}>Released</option>
+                                </select>
+                                <i class="bi bi-caret-down-fill position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); pointer-events: none;"></i>
+                            </div>
+                        </form>
+                    </td>
+                    {% else %}
+                    <td>{{ criminal.status }}</td>
+                    {% endif %}
+
+                    <td>{{criminal.arrest_date}}</td>
+                    {% if current_user.role == 'admin' %}
+                    <td>
+                        <a href="{{ url_for('delete_criminal', criminal_id=criminal.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

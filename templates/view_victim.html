@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}View Victim{% endblock %}
+{% block content %}
+<h2>Victim List</h2>
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table">
+    <thead id="tableheading">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Crime ID</th>
+            {% if current_user.role == 'admin' %}
+                <th></th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('add_victim') }}" class="btn btn-success">Add Victim</a>
+        {% endif %}
+        {% for victim in victims %}
+        <tr class="searchable">
+            <td>{{ victim.id }}</td>
+            <td>{{ victim.name }}</td>
+            <td>{{ victim.calculate_age() }}</td>
+            <td>{{ victim.gender }}</td>
+            <td><a class="btn-sm" href="{{ url_for('crime_details', crime_id=victim.crime_id) }}">Crime ID: {{ victim.crime_id }}</a></td>
+            {% if current_user.role == 'admin' %}
+                <td>
+                    <a href="{{ url_for('delete_victim', victim_id=victim.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+                </td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

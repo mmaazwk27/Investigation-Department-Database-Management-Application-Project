@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}View Crimes{% endblock %}
+{% block content %}
+<div class="container text-center">
+    <h1 id="pageh1">Crime List</h1>
+</div>
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table">
+    <thead id="tableheading">
+        <tr>
+            <th>ID</th>
+            <th>Crime Type</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Rported Police Station</th>
+            <th>Commited By</th>
+            <th>Witness(es)</th>
+            <th>Evidence(s)</th>
+            <th>Victim(s)</th>
+            {% if current_user.role == 'admin' %}
+                <th></th>
+            {% endif %}
+
+        </tr>
+    </thead>
+    <tbody>
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('add_crime') }}" class="btn btn-success">Add Crime</a>
+        {% endif %}
+        {% for crime in crimes %}
+        <tr class="searchable">
+            <td>{{crime.id}}</td>
+            <td>{{ crime.crime_type }}</td>
+            <td>{{ crime.date }}</td>
+            <td>{{ crime.location }}</td>
+            <td>{{ crime.description }}</td>
+            <td><a class="btn-sm" href="{{ url_for('police_station_details', police_station_id=crime.police_station_id) }}">Police Station ID: {{ crime.police_station_id }}</a></td>
+            <td><a class="btn-sm" href="{{ url_for('criminal_details', criminal_id=crime.criminal_id) }}">Criminal ID: {{ crime.criminal_id }}</a></td>
+            <td>
+                {% if crime.witnesses %}
+                    {% for witness in crime.witnesses %}
+                        <div><a href="{{ url_for('witness_details', witness_id=witness.id) }}" class="btn btn-sm btn-outline-info mb-1">Witness ID: {{ witness.id }}</a></div>
+                    {% endfor %}
+                {% else %}
+                    <span class="text-muted">None</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if crime.evidences %}
+                    {% for evidence in crime.evidences %}
+                        <div><a href="{{ url_for('evidence_details', evidence_id=evidence.id) }}" class="btn btn-sm btn-outline-info mb-1">Evidence ID:{{ evidence.id }}</a></div>
+                    {% endfor %}
+                {% else %}
+                    <span class="text-muted">None</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if crime.victims %}
+                    {% for victim in crime.victims %}
+                        <div><a href="{{ url_for('victim_details', victim_id=victim.id) }}" class="btn btn-sm btn-outline-info mb-1">Victim ID: {{ victim.id }}</a></div>
+                    {% endfor %}
+                {% else %}
+                    <span class="text-muted">None</span>
+                {% endif %}
+            </td>
+
+            {% if current_user.role == 'admin' %}
+            <td>
+                <a href="{{ url_for('delete_crime', crime_id=crime.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+                
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

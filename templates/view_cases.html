@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}View Cases{% endblock %}
+{% block content %}
+<div class="container text-center">
+    <h1 id="pageh1">Cases List</h1>
+</div>
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table">
+    <thead id="tableheading">
+        <tr>
+            <th>ID</th>
+            <th>Crime ID</th>
+            <th>Police Officer ID</th>
+            <th>Status</th>
+            {% if current_user.role == 'admin' %}
+                <th></th>
+            {% endif %}
+
+        </tr>
+    </thead>
+    <tbody>
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('add_case') }}" class="btn btn-success">Add Case</a>
+        {% endif %}
+        {% for case in cases %}
+        <tr class="searchable">
+            <td>{{case.id}}</td>
+            <td><a class="btn-sm" href="{{ url_for('crime_details', crime_id=case.crime_id) }}">Crime ID: {{  case.crime_id }}</a></td>
+            <td><a class="btn-sm" href="{{ url_for('police_officer_details', police_officer_id=case.police_officer_id) }}">Police Officer ID: {{ case.police_officer_id }}</a></td>
+            {% if current_user.role == 'admin' %}
+            <td>
+                <!-- Dropdown for editing criminal status -->
+                <form method="POST" action="{{ url_for('edit_case_status', case_id=case.id) }}">
+                    {{ csrf_form.hidden_tag() }}
+                    <div class="form-group position-relative">
+                        <select name="case_status" class="form-control" onchange="this.form.submit()">
+                            <option value="Open" {% if case.status == 'Open' %}selected{% endif %}>Open</option>
+                            <option value="Under Investigation" {% if case.status == 'Under Investigation' %}selected{% endif %}>Under Investigation</option>
+                            <option value="Closed" {% if case.status == 'Closed' %}selected{% endif %}>Closed</option>
+                        </select>
+                        <i class="bi bi-caret-down-fill position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); pointer-events: none;"></i>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <a href="{{ url_for('delete_case', case_id=case.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+
+            </td>
+            {% else %}
+            <td>{{ case.status }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

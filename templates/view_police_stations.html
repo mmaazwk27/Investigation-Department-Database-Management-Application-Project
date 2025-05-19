@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}View Police Stations{% endblock %}
+{% block content %}
+<h2>Police Stations List</h2>
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table">
+    <thead id="tableheading">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            {% if current_user.role == 'admin' %}
+                <th></th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('add_police_station') }}" class="btn btn-success">Add Police Station</a>
+        {% endif %}
+        {% for station in police_station %}
+        <tr class="searchable">
+            <td>{{ station.id }}</td>
+            <td>{{ station.name }}</td>
+            <td>{{ station.location }}</td>
+            {% if current_user.role == 'admin' %}
+                <td>
+                    <a href="{{ url_for('delete_police_station', station_id=station.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+                </td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

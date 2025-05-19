@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Add Case{% endblock %}
+{% block content %}
+    <h2>Add Case</h2>
+    <!-- <form method="POST"> -->
+    <form action="{{ url_for('add_case') }}" method="POST">
+        <!-- {{ csrf_token() }} -->
+        {{ form.hidden_tag() }}
+        <div class="mb-3">{{ form.id.label }} {{ form.id(class="form-control") }}</div>
+        <div class="mb-3">
+            {{ form.crime_id.label(class="form-label") }}
+            {{ form.crime_id(class="form-select") }}
+            {% if form.crime_id.errors %}
+              <div class="text-danger">
+                {% for err in form.crime_id.errors %}
+                  {{ err }}
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.police_officer_id.label(class="form-label") }}
+            {{ form.police_officer_id(class="form-select") }}
+            {% if form.police_officer_id.errors %}
+              <div class="text-danger">
+                {% for err in form.police_officer_id.errors %}
+                  {{ err }}
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">{{ form.status.label }} {{ form.status(class="form-select") }}</div>
+
+        
+    
+        
+    
+        
+        <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+    </form>
+{% endblock %}

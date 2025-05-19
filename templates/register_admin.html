@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Admin Registration{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Admin Registration</h2>
+    <form action="{{ url_for('register_admin') }}" method="POST" class="mt-4">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            {{ form.username(class="form-control", placeholder="Enter username") }}
+            {% if form.username.errors %}
+                <div class="text-danger">
+                    {% for error in form.username.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            {{ form.email(class="form-control", placeholder="Enter email") }}
+            {% if form.email.errors %}
+                <div class="text-danger">
+                    {% for error in form.email.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            {{ form.password(class="form-control", placeholder="Password must contain length>8 characters, a special character and a digit") }}
+            {% if form.password.errors %}
+                <div class="text-danger">
+                    {% for error in form.password.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            {{ form.confirm_password(class="form-control", placeholder="Confirm password") }}
+            {% if form.confirm_password.errors %}
+                <div class="text-danger">
+                    {% for error in form.confirm_password.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="security_key" class="form-label">Security key</label>
+            {{ form.security_key(class="form-control", placeholder="Enter security key provided to you by the administration.") }}
+            {% if form.security_key.errors %}
+            <div class="text-danger">
+                {% for e in form.security_key.errors %}
+                    {{ e }}
+                {% endfor %}
+            </div>
+            
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+    </form>
+
+    <div id="accountcreationtext" class="text-center mt-3">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Go Back to Home</a>
+    </div>
+</div>
+{% endblock %}

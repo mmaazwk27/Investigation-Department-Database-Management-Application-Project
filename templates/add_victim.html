@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Add Victim{% endblock %}
+{% block content %}
+<h2>Add Victim</h2>
+<form action="{{ url_for('add_victim') }}" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.id.label(class="form-label") }} {{ form.id(class="form-control") }}</div>
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }} {{ form.name(class="form-control") }}    </div>
+    <div class="mb-3">
+        <div class="form-group">
+            {{ form.date_of_birth.label(class="form-label") }}
+            {{ form.date_of_birth(class="form-control", type="date") }}
+          </div>
+    <div class="mb-3">
+        {{ form.gender.label(class="form-label") }} {{ form.gender(class="form-control") }}</div>
+        <div class="mb-3">
+            {{ form.crime_id.label(class="form-label") }}
+            {{ form.crime_id(class="form-select") }}
+            {% if form.crime_id.errors %}
+              <div class="text-danger">
+                {% for err in form.crime_id.errors %}
+                  {{ err }}
+                {% endfor %}
+              </div>
+            {% endif %}
+        </div>
+
+    
+    <button type="submit" class="btn btn-primary">Add Victim</button>
+</form>
+{% endblock %}

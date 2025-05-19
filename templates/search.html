@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Search{% endblock %}
+{% block content %}
+    <h2>Search Crime Records</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <input type="text" name="query" class="form-control" placeholder="Enter name, crime type, or officer...">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if results %}
+        <h3 class="mt-4">Search Results</h3>
+        <ul class="list-group">
+            {% for result in results %}
+                <li class="list-group-item">{{ result }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

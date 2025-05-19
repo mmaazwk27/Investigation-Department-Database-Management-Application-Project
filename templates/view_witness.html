@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}View Witness{% endblock %}
+{% block content %}
+<h2>Witness List</h2>
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table">
+    <thead id="tableheading">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Statement</th>
+            <th>Crime ID</th>
+            {% if current_user.role == 'admin' %}
+                <th></th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('add_witness') }}" class="btn btn-success">Add Witness</a>
+        {% endif %}
+        {% for witness in witnesses %}
+        <tr class="searchable">
+            <td>{{ witness.id }}</td>
+            <td>{{ witness.name }}</td>
+            <td>{{ witness.statement }}</td>
+            <td><a class="btn-sm" href="{{ url_for('crime_details', crime_id=witness.crime_id) }}">Crime ID: {{  witness.crime_id }}</a></td>
+            {% if current_user.role == 'admin' %}
+                <td>
+                    <a href="{{ url_for('delete_witness', witness_id=witness.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+                </td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

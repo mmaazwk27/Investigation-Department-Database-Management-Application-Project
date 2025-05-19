@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}View Evidence{% endblock %}
+{% block content %}
+<div class="container text-center">
+    <h1 id="pageh1">Evidence List</h1>
+</div>
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table">
+    <thead id="tableheading">
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Crime ID</th>
+            <th>Submitted By Officer</th>
+            <th>Submission Date</th>
+            {% if current_user.role == 'admin' %}
+                <th></th>
+            {% endif %}
+
+        </tr>
+    </thead>
+    <tbody>
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('add_evidence') }}" class="btn btn-success">Add Evidence</a>
+        {% endif %}
+        {% for evidence in evidences %}
+        <tr class="searchable">
+            <td>{{evidence.id}}</td>
+            <td>{{evidence.description}}</td>
+            <td><a class="btn-sm" href="{{ url_for('crime_details', crime_id=evidence.crime_id) }}">Crime ID: {{  evidence.crime_id }}</a></td>
+            <td><a class="btn-sm" href="{{ url_for('police_officer_details', police_officer_id=evidence.police_officer_id) }}">Submitted by Police Officer ID: {{ evidence.police_officer_id }}</a></td>
+            <td>{{evidence.submission_date}}</td>
+            {% if current_user.role == 'admin' %}
+            <td>
+                <a href="{{ url_for('delete_evidence', evidence_id=evidence.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Crime DBMS{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark {% if current_user.is_authenticated and current_user.role == 'admin' %}admin-navbar{% else %}default-navbar{% endif %}">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index' if current_user.is_authenticated else 'home') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Site Logo" class="logo" >
+                <span class="navbar-title ms-2 flex-grow-1 text-wrap fw-bold">Crime & Criminal Database</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if current_user.is_authenticated %}
+                        <!-- Show these links only if user is logged in -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_crimes') }}">Crimes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_criminals') }}">Criminals</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_police_officers') }}">Police Officers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_police_stations') }}">Police Stations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_case') }}">Cases</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_evidence') }}">Evidences</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_witness') }}">Witness</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('view_victim') }}">Victim</a>
+                        </li>
+                    <li id="Logoutnav" class="nav-item">
+                        <a class="btn btn-danger" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                        <!-- Show Login/Register links only if user is NOT logged in -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                        </li>
+                {% endif %}
+                {% block nav_extra %}{% endblock %}
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+    <div class="admin-banner text-center py-2">
+        <strong>LOGGED IN AS AN ADMIN ACCOUNT</strong>
+    </div>
+    {% endif %}
+
+    <!-- Flash Messages -->
+    <main class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category if category else 'info' }} alert-auto-dismiss">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light text-center py-3 mt-4">
+        &copy;A.E.M.M: Crime & Criminal Management System
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> <!-- Bootstrap Icons-->
+
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

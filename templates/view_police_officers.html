@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}View Police Officers{% endblock %}
+{% block content %}
+<h2>Police Officers List</h2>
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table">
+    <thead id="tableheading">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Rank</th>
+            <th>Badge Number</th>
+            <th>Assigned Police Station</th>
+            {% if current_user.role == 'admin' %}
+                <th></th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('add_officer') }}" class="btn btn-success">Add Police Officer</a>
+        {% endif %}
+        {% for officer in police_officer %}
+        <tr class="searchable">
+            <td>{{ officer.id }}</td>
+            <td>{{ officer.name }}</td>
+            <td>{{ officer.rank }}</td>
+            <td>{{ officer.badge_number }}</td>
+            <td><a class="btn-sm" href="{{ url_for('police_station_details', police_station_id=officer.police_station_id) }}">Police Station ID: {{ officer.police_station_id }}</a></td>
+            {% if current_user.role == 'admin' %}
+                <td>
+                    <a href="{{ url_for('delete_police_officer', officer_id=officer.id) }}" class="btn btn-danger btn-sm" onclick="return confirmDelete()">Delete</a>
+                </td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
