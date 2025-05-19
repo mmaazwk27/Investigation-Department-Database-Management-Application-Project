@@ -88,9 +88,26 @@ This application allows structured management of various investigation-related e
 - 🔌 REST API support for seamless third-party integration and automation
 
 ---
+> 📄 **Note:** Create your own `.env` file in the project root directory to store sensitive configuration details like database credentials, secret keys, etc.  
+> Example:
+> ```
+> DB_USERNAME='your_mysql_user'
+> DB_PASSWORD='your_mysql_password'
+> DB_HOST='your_host'
+> DB_NAME='your_database_name'
+> ADMIN_SECURITY_KEY='your_secret_key'
+> ```
 
-### 👨‍💻 Author
+## 👨‍💻 Author 
 
 **Muhammad Maaz Wali Khan**  
 📚 _DBMS University Project_  
 🔗 [GitHub: @mmaazwk27](https://github.com/mmaazwk27)
+### Collaborators
+- **Alisha Ather**
+-- 🔗 [GitHub: @alishaather](https://github.com/alishaather)
+- **Mehak Duseja**
+-- 🔗 [GitHub: @MehakDuseja](https://github.com/MehakDuseja)
+- **Eman Zaheer**
+-- 🔗 [GitHub: @emanzaheer](https://github.com/emanzaheer)
+  
