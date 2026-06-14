@@ -110,4 +110,9 @@ This application allows structured management of various investigation-related e
 -- 🔗 [GitHub: @MehakDuseja](https://github.com/MehakDuseja)
 - **Eman Zaheer**
 -- 🔗 [GitHub: @emanzaheer](https://github.com/emanzaheer)
-  
+
+## 🛡️ Security Disclaimer
+This project is for educational purposes only. It lacks enterprise-grade encryption and authentication. Please ensure that the shared_directory does not contain sensitive personal data.
+
+## 📄 License
+This project is licensed under the Apache License 2.0. See the LICENSE file for details.
